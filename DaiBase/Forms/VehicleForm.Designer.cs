@@ -118,9 +118,9 @@
             label2.AutoSize = true;
             label2.Location = new Point(227, 42);
             label2.Name = "label2";
-            label2.Size = new Size(101, 15);
+            label2.Size = new Size(70, 15);
             label2.TabIndex = 9;
-            label2.Text = "Марка та модель";
+            label2.Text = "Марка авто";
             // 
             // label3
             // 

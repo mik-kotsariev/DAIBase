@@ -68,8 +68,17 @@ namespace DaiBase
 
         private void btnOverdue_Click(object sender, EventArgs e)
         {
-            var result = _repository.GetOverdueInspections();
-            UpdateGrid(result);
+
+            var overdueVehicles = _repository.GetAll()
+                .Where(v => v.IsInspectionOverdue)
+                .ToList();
+
+            UpdateGrid(overdueVehicles);
+
+            if (overdueVehicles.Count == 0)
+            {
+                MessageBox.Show("Машин з простроченим ТО (більше 2 років) не знайдено.", "Інформація");
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -127,5 +136,107 @@ namespace DaiBase
 
             cmbSearchBrand.DataSource = brands;
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgvVehicles.CurrentRow != null)
+            {
+                string stateNumber = dgvVehicles.CurrentRow.Cells["Номер"].Value?.ToString() ?? "";
+
+                if (string.IsNullOrEmpty(stateNumber)) return;
+
+                var result = MessageBox.Show(
+                    $"Ви впевнені, що хочете видалити автомобіль з номером {stateNumber}?",
+                    "Підтвердження видалення",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    _repository.DeleteVehicle(stateNumber);
+
+                    UpdateGrid(_repository.GetAll());
+                    UpdateBrandsComboBox();
+
+                    MessageBox.Show("Запис успішно видалено.", "Готово", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Будь ласка, спочатку виберіть рядок у таблиці.", "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnDetails_Click(object sender, EventArgs e)
+        {
+            // Перевіряємо, чи вибрано рядок
+            if (dgvVehicles.CurrentRow != null)
+            {
+                string stateNumber = dgvVehicles.CurrentRow.Cells["Номер"].Value?.ToString() ?? "";
+
+                var vehicle = _repository.GetAll().FirstOrDefault(v => v.StateNumber == stateNumber);
+
+                if (vehicle != null)
+                {
+
+                    VehicleDetailsForm detailsForm = new VehicleDetailsForm(vehicle);
+                    detailsForm.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Будь ласка, виберіть автомобіль для перегляду.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnGenerateNotice_Click(object sender, EventArgs e)
+        {
+            string stateNumber = dgvVehicles.CurrentRow?.Cells["Номер"].Value?.ToString() ?? "";
+            var vehicle = _repository.GetAll().FirstOrDefault(v => v.StateNumber == stateNumber);
+
+            if (vehicle != null)
+            {
+                // 1. Генерируем текст с помощью нашего метода
+                string noticeText = vehicle.GenerateInspectionNotice();
+
+                // 2. Показываем на экране
+                MessageBox.Show(noticeText, "Друк документа", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnFindAllOwnerCars_Click(object sender, EventArgs e)
+        {
+            if (dgvVehicles.CurrentRow != null)
+            {
+                // 1. Отримуємо ПІБ з виділеного рядка (перевір, щоб назва стовпця збігалася з твоєю!)
+                // Якщо у таблиці немає окремого стовпця "ПІБ", доведеться шукати через об'єкт
+                string stateNumber = dgvVehicles.CurrentRow.Cells["Номер"].Value?.ToString() ?? "";
+                var vehicle = _repository.GetAll().FirstOrDefault(v => v.StateNumber == stateNumber);
+
+                if (vehicle != null)
+                {
+                    // 2. Вставляємо ПІБ у верхнє поле пошуку
+                    txtSearchOwner.Text = vehicle.VehicleOwner.FullName;
+
+                    // 3. Очищаємо інші поля пошуку (щоб шукало тільки за ПІБ)
+                    txtSearchNumber.Text = "";
+                    cmbSearchBrand.SelectedIndex = 0; // Скидаємо на "Усі марки"
+
+                    // 4. Програмно "натискаємо" кнопку Пошук
+                    btnSearch.PerformClick();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Виберіть автомобіль, щоб знайти інші авто цього власника.");
+            }
+        }
+
+        private void btnShowAll_Click(object sender, EventArgs e)
+        {
+            UpdateGrid(_repository.GetAll());
+        }
+
+        
     }
 }
