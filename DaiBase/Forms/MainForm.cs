@@ -44,7 +44,6 @@ namespace DaiBase
 
             string searchBrand = cmbSearchBrand.SelectedItem?.ToString() ?? "";
 
-            // Якщо вибрано всі марки, то передаємо порожній рядок
             if (searchBrand == "Усі марки")
             {
                 searchBrand = "";
@@ -169,7 +168,7 @@ namespace DaiBase
 
         private void btnDetails_Click(object sender, EventArgs e)
         {
-            // Перевіряємо, чи вибрано рядок
+
             if (dgvVehicles.CurrentRow != null)
             {
                 string stateNumber = dgvVehicles.CurrentRow.Cells["Номер"].Value?.ToString() ?? "";
@@ -196,10 +195,8 @@ namespace DaiBase
 
             if (vehicle != null)
             {
-                // 1. Генерируем текст с помощью нашего метода
                 string noticeText = vehicle.GenerateInspectionNotice();
 
-                // 2. Показываем на экране
                 MessageBox.Show(noticeText, "Друк документа", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -208,21 +205,18 @@ namespace DaiBase
         {
             if (dgvVehicles.CurrentRow != null)
             {
-                // 1. Отримуємо ПІБ з виділеного рядка (перевір, щоб назва стовпця збігалася з твоєю!)
-                // Якщо у таблиці немає окремого стовпця "ПІБ", доведеться шукати через об'єкт
                 string stateNumber = dgvVehicles.CurrentRow.Cells["Номер"].Value?.ToString() ?? "";
                 var vehicle = _repository.GetAll().FirstOrDefault(v => v.StateNumber == stateNumber);
 
                 if (vehicle != null)
                 {
-                    // 2. Вставляємо ПІБ у верхнє поле пошуку
+
                     txtSearchOwner.Text = vehicle.VehicleOwner.FullName;
 
-                    // 3. Очищаємо інші поля пошуку (щоб шукало тільки за ПІБ)
-                    txtSearchNumber.Text = "";
-                    cmbSearchBrand.SelectedIndex = 0; // Скидаємо на "Усі марки"
 
-                    // 4. Програмно "натискаємо" кнопку Пошук
+                    txtSearchNumber.Text = "";
+                    cmbSearchBrand.SelectedIndex = 0; 
+
                     btnSearch.PerformClick();
                 }
             }
