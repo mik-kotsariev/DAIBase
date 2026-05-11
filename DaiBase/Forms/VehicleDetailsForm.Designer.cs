@@ -64,9 +64,9 @@
             groupBox1.Controls.Add(lblStateNumber);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(265, 12);
+            groupBox1.Location = new Point(232, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(251, 145);
+            groupBox1.Size = new Size(344, 145);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Інформація про ТЗ";
@@ -151,9 +151,9 @@
             groupBox2.Controls.Add(lblInspectionDate);
             groupBox2.Controls.Add(label4);
             groupBox2.Controls.Add(label3);
-            groupBox2.Location = new Point(265, 163);
+            groupBox2.Location = new Point(232, 163);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(251, 89);
+            groupBox2.Size = new Size(344, 89);
             groupBox2.TabIndex = 0;
             groupBox2.TabStop = false;
             groupBox2.Text = "Сервісна інформація";
@@ -162,7 +162,7 @@
             // 
             btnGenerateNotice.Location = new Point(0, 66);
             btnGenerateNotice.Name = "btnGenerateNotice";
-            btnGenerateNotice.Size = new Size(251, 23);
+            btnGenerateNotice.Size = new Size(344, 23);
             btnGenerateNotice.TabIndex = 4;
             btnGenerateNotice.Text = "Надіслати запрошння на ТО";
             btnGenerateNotice.UseVisualStyleBackColor = true;
@@ -211,9 +211,9 @@
             groupBox3.Controls.Add(lblOwnerName);
             groupBox3.Controls.Add(label8);
             groupBox3.Controls.Add(label7);
-            groupBox3.Location = new Point(265, 258);
+            groupBox3.Location = new Point(232, 258);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(251, 71);
+            groupBox3.Size = new Size(344, 71);
             groupBox3.TabIndex = 0;
             groupBox3.TabStop = false;
             groupBox3.Text = "Дані власника";
@@ -232,9 +232,9 @@
             lblOwnerName.AutoSize = true;
             lblOwnerName.Location = new Point(146, 19);
             lblOwnerName.Name = "lblOwnerName";
-            lblOwnerName.Size = new Size(82, 15);
+            lblOwnerName.Size = new Size(80, 15);
             lblOwnerName.TabIndex = 2;
-            lblOwnerName.Text = "Прізвище І.О.";
+            lblOwnerName.Text = "Прізвище І.Б.";
             // 
             // label8
             // 
