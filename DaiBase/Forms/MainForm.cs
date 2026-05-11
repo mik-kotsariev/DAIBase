@@ -20,6 +20,7 @@ namespace DaiBase
             _repository = new VehicleRepository();
 
             UpdateGrid(_repository.GetAll());
+            UpdateBrandsComboBox();
         }
 
         private void UpdateGrid(List<Vehicle> vehicles)
@@ -38,8 +39,21 @@ namespace DaiBase
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            var result = _repository.SearchVehicles(txtSearchNumber.Text, txtSearchOwner.Text, cmbSearchBrand.Text);
-            UpdateGrid(result);
+            string searchNumber = txtSearchNumber.Text;
+            string searchOwner = txtSearchOwner.Text;
+
+            string searchBrand = cmbSearchBrand.SelectedItem?.ToString() ?? "";
+
+            // Якщо вибрано всі марки, то передаємо порожній рядок
+            if (searchBrand == "Усі марки")
+            {
+                searchBrand = "";
+            }
+
+            var searchResults = _repository.SearchVehicles(searchNumber, searchOwner, searchBrand);
+
+
+            UpdateGrid(searchResults);
         }
 
         private void txtSearchNumber_TextChanged(object sender, EventArgs e)
@@ -76,7 +90,42 @@ namespace DaiBase
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            if (dgvVehicles.CurrentRow != null)
+            {
+                string stateNumber = dgvVehicles.CurrentRow.Cells["Номер"].Value?.ToString() ?? "";
 
+                var vehicleToEdit = _repository.GetAll().FirstOrDefault(v => v.StateNumber == stateNumber);
+
+                if (vehicleToEdit != null)
+                {
+                    VehicleForm editForm = new VehicleForm(vehicleToEdit);
+
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        _repository.UpdateVehicle();
+                        UpdateGrid(_repository.GetAll());
+                        MessageBox.Show("Дані успішно оновлено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Будь ласка, виберіть автомобіль у списку для редагування.", "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void UpdateBrandsComboBox()
+        {
+
+            var brands = _repository.GetAll()
+                .Select(v => v.Brand)
+                .Where(b => !string.IsNullOrWhiteSpace(b))
+                .Distinct()
+                .OrderBy(b => b)
+                .ToList();
+            brands.Insert(0, "Усі марки");
+
+            cmbSearchBrand.DataSource = brands;
         }
     }
 }

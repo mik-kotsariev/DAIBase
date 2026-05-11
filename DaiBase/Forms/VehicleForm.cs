@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using DaiBase.Models;
 
 namespace DaiBase.Forms
@@ -22,9 +23,9 @@ namespace DaiBase.Forms
             txtStateNumber.Text = vehicle.StateNumber;
             txtBrand.Text = vehicle.Brand;
             txtColor.Text = vehicle.Color;
+            txtSpecialFeatures.Text = vehicle.SpecialFeatures;
             txtYear.Text = vehicle.ManufactureYear.ToString();
             txtOwnerName.Text = vehicle.VehicleOwner.FullName;
-            txtPassportSeries.Text = vehicle.VehicleOwner.PassportSeries;
             txtPassportNumber.Text = vehicle.VehicleOwner.PassportNumber;
             dateTimePicker1.Value = vehicle.LastInspectionDate;
 
@@ -37,21 +38,39 @@ namespace DaiBase.Forms
         {
             try
             {
+                //перевірка року виробництва
                 if (!int.TryParse(txtYear.Text, out int year) || year < 1900 || year > DateTime.Now.Year + 1)
                 {
                     MessageBox.Show("Введіть коректний рік!");
                     return;
                 }
 
+                //перевірка формату номера
+
+                string numberPattern = @"^[А-ЯІЇЄA-Z]{2}\s?\d{4}\s?[А-ЯІЇЄA-Z]{2}$";
+                if (!System.Text.RegularExpressions.Regex.IsMatch(txtStateNumber.Text.ToUpper(), numberPattern))
+                {
+                    MessageBox.Show("Держ. номер має бути у форматі 'АХ 1234 СВ' або 'АХ1234СВ'.", "Помилка формату", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                //перевірка формату паспорта
+                string passportNumberPattern = @"^(\d{6})$";
+                if (!System.Text.RegularExpressions.Regex.IsMatch(txtPassportNumber.Text, passportNumberPattern))
+                {
+                    MessageBox.Show("Номер документа має містити 6 цифр ", "Помилка формату", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (_vehicle == null) _vehicle = new Vehicle { VehicleOwner = new Owner() };
 
-                _vehicle.StateNumber = txtStateNumber.Text;
+                _vehicle.StateNumber = txtStateNumber.Text.ToUpper();
                 _vehicle.Brand = txtBrand.Text;
                 _vehicle.Color = txtColor.Text;
+                _vehicle.SpecialFeatures = txtSpecialFeatures.Text;
                 _vehicle.ManufactureYear = year;
                 _vehicle.LastInspectionDate = dateTimePicker1.Value;
                 _vehicle.VehicleOwner.FullName = txtOwnerName.Text;
-                _vehicle.VehicleOwner.PassportSeries = txtPassportSeries.Text;
                 _vehicle.VehicleOwner.PassportNumber = txtPassportNumber.Text;
 
                 this.DialogResult = DialogResult.OK;

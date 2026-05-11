@@ -34,7 +34,7 @@
             txtOwnerName = new TextBox();
             txtYear = new TextBox();
             txtColor = new TextBox();
-            txtPassportSeries = new TextBox();
+            txtSpecialFeatures = new TextBox();
             txtPassportNumber = new TextBox();
             dateTimePicker1 = new DateTimePicker();
             label2 = new Label();
@@ -73,14 +73,14 @@
             // 
             // txtOwnerName
             // 
-            txtOwnerName.Location = new Point(347, 121);
+            txtOwnerName.Location = new Point(347, 150);
             txtOwnerName.Name = "txtOwnerName";
             txtOwnerName.Size = new Size(209, 23);
             txtOwnerName.TabIndex = 3;
             // 
             // txtYear
             // 
-            txtYear.Location = new Point(347, 92);
+            txtYear.Location = new Point(347, 121);
             txtYear.Name = "txtYear";
             txtYear.Size = new Size(209, 23);
             txtYear.TabIndex = 4;
@@ -92,12 +92,12 @@
             txtColor.Size = new Size(209, 23);
             txtColor.TabIndex = 5;
             // 
-            // txtPassportSeries
+            // txtSpecialFeatures
             // 
-            txtPassportSeries.Location = new Point(347, 150);
-            txtPassportSeries.Name = "txtPassportSeries";
-            txtPassportSeries.Size = new Size(209, 23);
-            txtPassportSeries.TabIndex = 6;
+            txtSpecialFeatures.Location = new Point(347, 92);
+            txtSpecialFeatures.Name = "txtSpecialFeatures";
+            txtSpecialFeatures.Size = new Size(209, 23);
+            txtSpecialFeatures.TabIndex = 6;
             // 
             // txtPassportNumber
             // 
@@ -134,7 +134,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(227, 100);
+            label4.Location = new Point(227, 129);
             label4.Name = "label4";
             label4.Size = new Size(70, 15);
             label4.TabIndex = 11;
@@ -143,7 +143,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(227, 129);
+            label5.Location = new Point(227, 158);
             label5.Name = "label5";
             label5.Size = new Size(80, 15);
             label5.TabIndex = 12;
@@ -152,11 +152,11 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(227, 158);
+            label6.Location = new Point(227, 100);
             label6.Name = "label6";
-            label6.Size = new Size(91, 15);
+            label6.Size = new Size(104, 15);
             label6.TabIndex = 13;
-            label6.Text = "Серія паспорта";
+            label6.Text = "Особливості авто";
             // 
             // label7
             // 
@@ -212,7 +212,7 @@
             Controls.Add(label2);
             Controls.Add(dateTimePicker1);
             Controls.Add(txtPassportNumber);
-            Controls.Add(txtPassportSeries);
+            Controls.Add(txtSpecialFeatures);
             Controls.Add(txtColor);
             Controls.Add(txtYear);
             Controls.Add(txtOwnerName);
@@ -220,7 +220,7 @@
             Controls.Add(txtStateNumber);
             Controls.Add(label1);
             Name = "VehicleForm";
-            Text = "Form1";
+            Text = "Особливості авто";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -233,7 +233,7 @@
         private TextBox txtOwnerName;
         private TextBox txtYear;
         private TextBox txtColor;
-        private TextBox txtPassportSeries;
+        private TextBox txtSpecialFeatures;
         private TextBox txtPassportNumber;
         private DateTimePicker dateTimePicker1;
         private Label label2;
