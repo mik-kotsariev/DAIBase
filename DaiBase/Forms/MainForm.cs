@@ -3,7 +3,7 @@ using DaiBase.Models;
 using DaiBase.Services;
 using System;
 using System.Collections.Generic;
-using System.Drawing; // Добавлено для цвета
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -20,7 +20,6 @@ namespace DaiBase
 
             _repository = new VehicleRepository();
 
-            // МАГИЯ: Автоматически привязываем событие подсветки (не нужно лезть в дизайнер!)
             dgvVehicles.CellFormatting += dgvVehicles_CellFormatting;
 
             UpdateGrid(_repository.GetAll());
@@ -31,11 +30,10 @@ namespace DaiBase
         {
             dgvVehicles.DataSource = null;
 
-            // Сюда мы просто добавили строчку с Типом!
             dgvVehicles.DataSource = vehicles.Select(v => new
             {
                 Номер = v.StateNumber,
-                Тип = v.GetVehicleTypeName(), // <--- ОСЬ ВОНО! 
+                Тип = v.GetVehicleTypeName(),
                 Марка = v.Brand,
                 Колір = v.Color,
                 Власник = v.VehicleOwner?.FullName,
@@ -43,18 +41,14 @@ namespace DaiBase
             }).ToList();
         }
 
-        // НОВЫЙ МЕТОД: Подсветка просроченных авто красным
         private void dgvVehicles_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Проверяем, что рисуется обычная строка, и колонка "Техогляд" существует
             if (e.RowIndex >= 0 && dgvVehicles.Columns.Contains("Техогляд"))
             {
-                // Берем дату прямо из ячейки "Техогляд"
                 var dateString = dgvVehicles.Rows[e.RowIndex].Cells["Техогляд"].Value?.ToString();
 
                 if (DateTime.TryParse(dateString, out DateTime date))
                 {
-                    // Твоя логика: если прошло больше 2 лет
                     if (DateTime.Now > date.AddYears(2))
                     {
                         e.CellStyle.ForeColor = Color.Red;

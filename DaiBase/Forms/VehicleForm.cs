@@ -14,7 +14,6 @@ namespace DaiBase.Forms
             InitializeComponent();
             this.Text = "Реєстрація транспортного засобу";
 
-            // ДОДАНО: Завантажуємо всі типи ТЗ у випадаючий список
             cmbVehicleType.DataSource = Enum.GetValues(typeof(VehicleType));
         }
 
@@ -30,8 +29,6 @@ namespace DaiBase.Forms
             txtYear.Text = vehicle.ManufactureYear.ToString();
             txtOwnerName.Text = vehicle.VehicleOwner.FullName;
             txtPassportNumber.Text = vehicle.VehicleOwner.PassportNumber;
-
-            // ДОДАНО: Встановлюємо правильний тип автомобіля при редагуванні
             cmbVehicleType.SelectedItem = vehicle.Type;
 
             txtStateNumber.ReadOnly = true;
