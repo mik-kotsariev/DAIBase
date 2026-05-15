@@ -262,6 +262,7 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox3);
             Controls.Add(groupBox1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "VehicleDetailsForm";
             Text = "Детальна інформація про авто ";
             groupBox1.ResumeLayout(false);

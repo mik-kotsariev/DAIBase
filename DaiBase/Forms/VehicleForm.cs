@@ -13,9 +13,12 @@ namespace DaiBase.Forms
         {
             InitializeComponent();
             this.Text = "Реєстрація транспортного засобу";
+
+            // ДОДАНО: Завантажуємо всі типи ТЗ у випадаючий список
+            cmbVehicleType.DataSource = Enum.GetValues(typeof(VehicleType));
         }
 
-        public VehicleForm(Vehicle vehicle) : this() 
+        public VehicleForm(Vehicle vehicle) : this()
         {
             _vehicle = vehicle;
             this.Text = "Редагування даних";
@@ -27,7 +30,9 @@ namespace DaiBase.Forms
             txtYear.Text = vehicle.ManufactureYear.ToString();
             txtOwnerName.Text = vehicle.VehicleOwner.FullName;
             txtPassportNumber.Text = vehicle.VehicleOwner.PassportNumber;
-            dateTimePicker1.Value = vehicle.LastInspectionDate;
+
+            // ДОДАНО: Встановлюємо правильний тип автомобіля при редагуванні
+            cmbVehicleType.SelectedItem = vehicle.Type;
 
             txtStateNumber.ReadOnly = true;
         }
@@ -46,7 +51,6 @@ namespace DaiBase.Forms
                 }
 
                 //перевірка формату номера
-
                 string numberPattern = @"^[А-ЯІЇЄA-Z]{2}\s?\d{4}\s?[А-ЯІЇЄA-Z]{2}$";
                 if (!System.Text.RegularExpressions.Regex.IsMatch(txtStateNumber.Text.ToUpper(), numberPattern))
                 {
@@ -69,9 +73,11 @@ namespace DaiBase.Forms
                 _vehicle.Color = txtColor.Text;
                 _vehicle.SpecialFeatures = txtSpecialFeatures.Text;
                 _vehicle.ManufactureYear = year;
-                _vehicle.LastInspectionDate = dateTimePicker1.Value;
                 _vehicle.VehicleOwner.FullName = txtOwnerName.Text;
                 _vehicle.VehicleOwner.PassportNumber = txtPassportNumber.Text;
+
+                // ДОДАНО: Зберігаємо обраний тип ТЗ в об'єкт
+                _vehicle.Type = (VehicleType)cmbVehicleType.SelectedItem;
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -83,6 +89,16 @@ namespace DaiBase.Forms
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void VehicleForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

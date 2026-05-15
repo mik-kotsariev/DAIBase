@@ -10,6 +10,7 @@ namespace DaiBase.Models
         Trailer
     }
 
+
     public class Vehicle
     {
         public string StateNumber { get; set; } = "";
@@ -39,6 +40,18 @@ namespace DaiBase.Models
                    $"(Держ. номер: {this.StateNumber}) потребує оновлення.\n\n" +
                    $"Просимо з'явитися до найближчого сервісного центру МВС.\n" +
                    $"Дата формування: {DateTime.Now.ToShortDateString()}";
+        }
+    
+         public string GetVehicleTypeName()
+        {
+            switch (Type)
+            {
+                case VehicleType.Car: return "Легковий автомобіль";
+                case VehicleType.Truck: return "Вантажний автомобіль";
+                case VehicleType.Motorcycle: return "Мотоцикл";
+                case VehicleType.Trailer: return "Причіп";
+                default: return "Невідомо";
+            }
         }
     }
 }

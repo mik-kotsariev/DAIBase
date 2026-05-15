@@ -3,6 +3,7 @@ using DaiBase.Models;
 using DaiBase.Services;
 using System;
 using System.Collections.Generic;
+using System.Drawing; // Добавлено для цвета
 using System.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -19,6 +20,9 @@ namespace DaiBase
 
             _repository = new VehicleRepository();
 
+            // МАГИЯ: Автоматически привязываем событие подсветки (не нужно лезть в дизайнер!)
+            dgvVehicles.CellFormatting += dgvVehicles_CellFormatting;
+
             UpdateGrid(_repository.GetAll());
             UpdateBrandsComboBox();
         }
@@ -27,14 +31,37 @@ namespace DaiBase
         {
             dgvVehicles.DataSource = null;
 
+            // Сюда мы просто добавили строчку с Типом!
             dgvVehicles.DataSource = vehicles.Select(v => new
             {
                 Номер = v.StateNumber,
+                Тип = v.GetVehicleTypeName(), // <--- ОСЬ ВОНО! 
                 Марка = v.Brand,
                 Колір = v.Color,
                 Власник = v.VehicleOwner?.FullName,
                 Техогляд = v.LastInspectionDate.ToShortDateString()
             }).ToList();
+        }
+
+        // НОВЫЙ МЕТОД: Подсветка просроченных авто красным
+        private void dgvVehicles_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Проверяем, что рисуется обычная строка, и колонка "Техогляд" существует
+            if (e.RowIndex >= 0 && dgvVehicles.Columns.Contains("Техогляд"))
+            {
+                // Берем дату прямо из ячейки "Техогляд"
+                var dateString = dgvVehicles.Rows[e.RowIndex].Cells["Техогляд"].Value?.ToString();
+
+                if (DateTime.TryParse(dateString, out DateTime date))
+                {
+                    // Твоя логика: если прошло больше 2 лет
+                    if (DateTime.Now > date.AddYears(2))
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        e.CellStyle.SelectionBackColor = Color.DarkRed;
+                    }
+                }
+            }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -51,23 +78,19 @@ namespace DaiBase
 
             var searchResults = _repository.SearchVehicles(searchNumber, searchOwner, searchBrand);
 
-
             UpdateGrid(searchResults);
         }
 
         private void txtSearchNumber_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void dgvVehicles_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
         }
 
         private void btnOverdue_Click(object sender, EventArgs e)
         {
-
             var overdueVehicles = _repository.GetAll()
                 .Where(v => v.IsInspectionOverdue)
                 .ToList();
@@ -90,8 +113,15 @@ namespace DaiBase
 
                 if (newVehicle != null)
                 {
-                    _repository.AddVehicle(newVehicle);
-                    UpdateGrid(_repository.GetAll());
+                    try
+                    {
+                        _repository.AddVehicle(newVehicle);
+                        UpdateGrid(_repository.GetAll());
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
         }
@@ -124,7 +154,6 @@ namespace DaiBase
 
         private void UpdateBrandsComboBox()
         {
-
             var brands = _repository.GetAll()
                 .Select(v => v.Brand)
                 .Where(b => !string.IsNullOrWhiteSpace(b))
@@ -168,7 +197,6 @@ namespace DaiBase
 
         private void btnDetails_Click(object sender, EventArgs e)
         {
-
             if (dgvVehicles.CurrentRow != null)
             {
                 string stateNumber = dgvVehicles.CurrentRow.Cells["Номер"].Value?.ToString() ?? "";
@@ -177,7 +205,6 @@ namespace DaiBase
 
                 if (vehicle != null)
                 {
-
                     VehicleDetailsForm detailsForm = new VehicleDetailsForm(vehicle);
                     detailsForm.ShowDialog();
                 }
@@ -210,12 +237,9 @@ namespace DaiBase
 
                 if (vehicle != null)
                 {
-
                     txtSearchOwner.Text = vehicle.VehicleOwner.FullName;
-
-
                     txtSearchNumber.Text = "";
-                    cmbSearchBrand.SelectedIndex = 0; 
+                    cmbSearchBrand.SelectedIndex = 0;
 
                     btnSearch.PerformClick();
                 }
@@ -230,7 +254,5 @@ namespace DaiBase
         {
             UpdateGrid(_repository.GetAll());
         }
-
-        
     }
 }

@@ -55,7 +55,7 @@
             dgvVehicles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvVehicles.Location = new Point(12, 227);
             dgvVehicles.Name = "dgvVehicles";
-            dgvVehicles.Size = new Size(732, 244);
+            dgvVehicles.Size = new Size(735, 245);
             dgvVehicles.TabIndex = 0;
             dgvVehicles.CellContentClick += dgvVehicles_CellContentClick;
             // 
@@ -200,7 +200,7 @@
             groupBox1.Controls.Add(btnOverdue);
             groupBox1.Location = new Point(12, 174);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(730, 47);
+            groupBox1.Size = new Size(733, 48);
             groupBox1.TabIndex = 15;
             groupBox1.TabStop = false;
             groupBox1.Text = "Дії з реєстром авто";
@@ -219,7 +219,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(756, 483);
+            ClientSize = new Size(759, 484);
             Controls.Add(btnShowAll);
             Controls.Add(groupBox1);
             Controls.Add(model);
@@ -230,7 +230,9 @@
             Controls.Add(txtSearchOwner);
             Controls.Add(txtSearchNumber);
             Controls.Add(dgvVehicles);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Довыник працывника ДАІ";
             ((System.ComponentModel.ISupportInitialize)dgvVehicles).EndInit();
             groupBox1.ResumeLayout(false);

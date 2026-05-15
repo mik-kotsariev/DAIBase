@@ -7,6 +7,5 @@ namespace DaiBase.Models
     {
         public string? FullName { get; set; }
         public string? PassportNumber { get; set; }
-        public string? ContactPhone { get; set; }
     }
 }
