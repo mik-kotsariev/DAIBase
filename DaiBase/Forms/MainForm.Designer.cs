@@ -233,7 +233,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Довыник працывника ДАІ";
+            Text = "Довідник працівника ДАІ";
             ((System.ComponentModel.ISupportInitialize)dgvVehicles).EndInit();
             groupBox1.ResumeLayout(false);
             ResumeLayout(false);

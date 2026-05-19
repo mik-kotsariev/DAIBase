@@ -29,7 +29,17 @@ namespace DaiBase.Forms
             txtYear.Text = vehicle.ManufactureYear.ToString();
             txtOwnerName.Text = vehicle.VehicleOwner.FullName;
             txtPassportNumber.Text = vehicle.VehicleOwner.PassportNumber;
+
             cmbVehicleType.SelectedItem = vehicle.Type;
+
+            if (vehicle.LastInspectionDate >= dateTimePicker1.MinDate && vehicle.LastInspectionDate <= dateTimePicker1.MaxDate)
+            {
+                dateTimePicker1.Value = vehicle.LastInspectionDate;
+            }
+            else
+            {
+                dateTimePicker1.Value = DateTime.Now;
+            }
 
             txtStateNumber.ReadOnly = true;
         }
@@ -72,9 +82,11 @@ namespace DaiBase.Forms
                 _vehicle.ManufactureYear = year;
                 _vehicle.VehicleOwner.FullName = txtOwnerName.Text;
                 _vehicle.VehicleOwner.PassportNumber = txtPassportNumber.Text;
-
-                // ДОДАНО: Зберігаємо обраний тип ТЗ в об'єкт
-                _vehicle.Type = (VehicleType)cmbVehicleType.SelectedItem;
+                if (cmbVehicleType.SelectedItem != null)
+                {
+                    _vehicle.Type = (VehicleType)cmbVehicleType.SelectedItem;
+                }
+                _vehicle.LastInspectionDate = dateTimePicker1.Value;
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();
