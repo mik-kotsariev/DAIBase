@@ -10,6 +10,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DaiBase
 {
+    // Головна форма додатку для управління транспортними засобами
     public partial class MainForm : Form
     {
         private VehicleRepository _repository;
@@ -25,7 +26,7 @@ namespace DaiBase
             UpdateGrid(_repository.GetAll());
             UpdateBrandsComboBox();
         }
-
+        // Метод для оновлення даних у DataGridView на основі списку транспортних засобів
         private void UpdateGrid(List<Vehicle> vehicles)
         {
             dgvVehicles.DataSource = null;
@@ -40,7 +41,7 @@ namespace DaiBase
                 Техогляд = v.LastInspectionDate.ToShortDateString()
             }).ToList();
         }
-
+        // Метод для форматування клітинок DataGridView, щоб виділити прострочені техогляди червоним кольором
         private void dgvVehicles_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex >= 0 && dgvVehicles.Columns.Contains("Техогляд"))
@@ -57,7 +58,7 @@ namespace DaiBase
                 }
             }
         }
-
+        // Обробник події для кнопки "Пошук", який виконує пошук транспортних засобів за введеними критеріями та оновлює DataGridView з результатами
         private void btnSearch_Click(object sender, EventArgs e)
         {
             string searchNumber = txtSearchNumber.Text;
@@ -82,7 +83,7 @@ namespace DaiBase
         private void dgvVehicles_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
         }
-
+        // Обробник події для кнопки "Прострочені ТО", який фільтрує транспортні засоби з простроченим техоглядом та оновлює DataGridView з результатами
         private void btnOverdue_Click(object sender, EventArgs e)
         {
             var overdueVehicles = _repository.GetAll()
@@ -96,7 +97,7 @@ namespace DaiBase
                 MessageBox.Show("Машин з простроченим ТО (більше 2 років) не знайдено.", "Інформація");
             }
         }
-
+        // Обробник події для кнопки "Додати", який відкриває форму для додавання нового транспортного засобу та оновлює DataGridView після додавання
         private void btnAdd_Click(object sender, EventArgs e)
         {
             VehicleForm form = new VehicleForm();
@@ -119,7 +120,7 @@ namespace DaiBase
                 }
             }
         }
-
+        // Обробник події для кнопки "Редагувати", який відкриває форму для редагування вибраного транспортного засобу та оновлює DataGridView після редагування
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (dgvVehicles.CurrentRow != null)
@@ -145,7 +146,7 @@ namespace DaiBase
                 MessageBox.Show("Будь ласка, виберіть автомобіль у списку для редагування.", "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
+        // Метод для оновлення списку марок у ComboBox на основі наявних транспортних засобів у репозиторії
         private void UpdateBrandsComboBox()
         {
             var brands = _repository.GetAll()
@@ -158,7 +159,7 @@ namespace DaiBase
 
             cmbSearchBrand.DataSource = brands;
         }
-
+        // Обробник події для кнопки "Видалити", який видаляє вибраний транспортний засіб після підтвердження та оновлює DataGridView
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvVehicles.CurrentRow != null)
@@ -188,7 +189,7 @@ namespace DaiBase
                 MessageBox.Show("Будь ласка, спочатку виберіть рядок у таблиці.", "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
+        // Обробник події для кнопки "Деталі", який відкриває форму з деталями вибраного транспортного засобу
         private void btnDetails_Click(object sender, EventArgs e)
         {
             if (dgvVehicles.CurrentRow != null)
@@ -208,7 +209,7 @@ namespace DaiBase
                 MessageBox.Show("Будь ласка, виберіть автомобіль для перегляду.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
+        // Обробник події для кнопки "Друк повідомлення", який генерує та відображає повідомлення про техогляд для вибраного транспортного засобу
         private void btnGenerateNotice_Click(object sender, EventArgs e)
         {
             string stateNumber = dgvVehicles.CurrentRow?.Cells["Номер"].Value?.ToString() ?? "";
@@ -221,7 +222,7 @@ namespace DaiBase
                 MessageBox.Show(noticeText, "Друк документа", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
+        // Обробник події для кнопки "Знайти всі авто власника", який виконує пошук та відображення всіх транспортних засобів, що належать тому ж власнику, що й вибраний транспортний засіб
         private void btnFindAllOwnerCars_Click(object sender, EventArgs e)
         {
             if (dgvVehicles.CurrentRow != null)
@@ -243,7 +244,7 @@ namespace DaiBase
                 MessageBox.Show("Виберіть автомобіль, щоб знайти інші авто цього власника.");
             }
         }
-
+        // Обробник події для кнопки "Показати всі", який скидає всі фільтри та відображає всі транспортні засоби у DataGridView
         private void btnShowAll_Click(object sender, EventArgs e)
         {
             UpdateGrid(_repository.GetAll());

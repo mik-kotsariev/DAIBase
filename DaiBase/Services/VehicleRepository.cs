@@ -5,6 +5,7 @@ using DaiBase.Models;
 
 namespace DaiBase.Services
 {
+    // Репозиторій для управління транспортними засобами
     public class VehicleRepository
     {
         private List<Vehicle> _vehicles;
@@ -15,7 +16,6 @@ namespace DaiBase.Services
             _storage = new JsonDataStorage();
             _vehicles = _storage.Load();
         }
-
         public void AddVehicle(Vehicle vehicle)
         {
 

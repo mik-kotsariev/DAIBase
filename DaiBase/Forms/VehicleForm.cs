@@ -5,6 +5,7 @@ using DaiBase.Models;
 
 namespace DaiBase.Forms
 {
+    // Форма для додавання або редагування транспортного засобу
     public partial class VehicleForm : Form
     {
         private Vehicle? _vehicle;
@@ -31,7 +32,7 @@ namespace DaiBase.Forms
             txtPassportNumber.Text = vehicle.VehicleOwner.PassportNumber;
 
             cmbVehicleType.SelectedItem = vehicle.Type;
-
+            // Встановлення дати останнього технічного огляду, якщо вона в межах допустимого діапазону
             if (vehicle.LastInspectionDate >= dateTimePicker1.MinDate && vehicle.LastInspectionDate <= dateTimePicker1.MaxDate)
             {
                 dateTimePicker1.Value = vehicle.LastInspectionDate;
@@ -45,7 +46,7 @@ namespace DaiBase.Forms
         }
 
         public Vehicle? ResultVehicle => _vehicle;
-
+        
         private void btnSave_Click(object sender, EventArgs e)
         {
             try

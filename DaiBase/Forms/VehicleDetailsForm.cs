@@ -5,13 +5,14 @@ using DaiBase.Models;
 
 namespace DaiBase.Forms
 {
+    // Форма для відображення деталей транспортного засобу
     public partial class VehicleDetailsForm : Form
     {
-
         private Vehicle _vehicle;
 
         public VehicleDetailsForm(Vehicle vehicle)
         {
+            // Ініціалізація компонентів форми та заповнення даними про транспортний засіб
             InitializeComponent();
             _vehicle = vehicle;
 
@@ -30,6 +31,7 @@ namespace DaiBase.Forms
                                       ? "Немає"
                                       : vehicle.SpecialFeatures;
         }
+        // Обробник події для кнопки "Друк повідомлення про ТО", який генерує та відображає повідомлення про технічний огляд
         private void btnGenerateNotice_Click(object sender, EventArgs e)
         {
 
