@@ -42,7 +42,7 @@ namespace DaiBase
             }).ToList();
         }
         // Метод для форматування клітинок DataGridView, щоб виділити прострочені техогляди червоним кольором
-        private void dgvVehicles_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void dgvVehicles_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex >= 0 && dgvVehicles.Columns.Contains("Техогляд"))
             {
