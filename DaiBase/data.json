@@ -1,0 +1,58 @@
+[
+  {
+    "StateNumber": "AX2222AX",
+    "Brand": "Honda",
+    "Color": "gray",
+    "ManufactureYear": 2019,
+    "Type": 0,
+    "SpecialFeatures": "-",
+    "LastInspectionDate": "2026-05-12T14:24:58.2070747+03:00",
+    "VehicleOwner": {
+      "FullName": "\u0406\u0432\u0430\u043D\u043E\u0432.\u0412.\u0406.",
+      "PassportNumber": "351235"
+    },
+    "IsInspectionOverdue": false
+  },
+  {
+    "StateNumber": "AX2313BC",
+    "Brand": "BMW",
+    "Color": "Blue",
+    "ManufactureYear": 2017,
+    "Type": 0,
+    "SpecialFeatures": "-",
+    "LastInspectionDate": "2026-05-07T15:25:51.485",
+    "VehicleOwner": {
+      "FullName": "\u0406\u0432\u0430\u043D\u043E\u0432.\u0412.\u0406.",
+      "PassportNumber": "312332"
+    },
+    "IsInspectionOverdue": false
+  },
+  {
+    "StateNumber": "KO2701KX",
+    "Brand": "Mazda",
+    "Color": "\u0421\u0438\u043D\u0456\u0439",
+    "ManufactureYear": 2018,
+    "Type": 0,
+    "SpecialFeatures": "-",
+    "LastInspectionDate": "2026-05-27T14:29:51.7904351+03:00",
+    "VehicleOwner": {
+      "FullName": "\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0438\u0439.\u0414.\u0421",
+      "PassportNumber": "351154"
+    },
+    "IsInspectionOverdue": false
+  },
+  {
+    "StateNumber": "KA1513AX",
+    "Brand": "Suzuki",
+    "Color": "\u0411\u043B\u0430\u043A\u0438\u0442\u043D\u0438\u0439",
+    "ManufactureYear": 2010,
+    "Type": 0,
+    "SpecialFeatures": "\u0413\u0411\u041E",
+    "LastInspectionDate": "2026-05-27T14:31:09.6404188+03:00",
+    "VehicleOwner": {
+      "FullName": "\u0421\u0435\u0440\u0433\u0456\u0457\u0432.\u0421.\u0421",
+      "PassportNumber": "314551"
+    },
+    "IsInspectionOverdue": false
+  }
+]
