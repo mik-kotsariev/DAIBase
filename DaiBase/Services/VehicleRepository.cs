@@ -5,6 +5,7 @@ using DaiBase.Models;
 
 namespace DaiBase.Services
 {
+    // Репозиторій для управління транспортними засобами
     public class VehicleRepository
     {
         private List<Vehicle> _vehicles;
@@ -15,7 +16,6 @@ namespace DaiBase.Services
             _storage = new JsonDataStorage();
             _vehicles = _storage.Load();
         }
-
         public void AddVehicle(Vehicle vehicle)
         {
 
@@ -41,9 +41,9 @@ namespace DaiBase.Services
         public List<Vehicle> SearchVehicles(string number, string ownerName, string brand)
         {
             return _vehicles.Where(v =>
-                (string.IsNullOrEmpty(number) || v.StateNumber.Contains(number, StringComparison.OrdinalIgnoreCase)) &&
-                (string.IsNullOrEmpty(ownerName) || v.VehicleOwner.FullName.Contains(ownerName, StringComparison.OrdinalIgnoreCase)) &&
-                (string.IsNullOrEmpty(brand) || v.Brand.Contains(brand, StringComparison.OrdinalIgnoreCase))
+                (string.IsNullOrEmpty(number) || (v.StateNumber?.Contains(number, StringComparison.OrdinalIgnoreCase) ?? false)) &&
+                (string.IsNullOrEmpty(ownerName) || (v.VehicleOwner?.FullName?.Contains(ownerName, StringComparison.OrdinalIgnoreCase) ?? false)) &&
+                (string.IsNullOrEmpty(brand) || (v.Brand?.Contains(brand, StringComparison.OrdinalIgnoreCase) ?? false))
             ).ToList();
         }
 
@@ -55,5 +55,10 @@ namespace DaiBase.Services
         public List<Vehicle> GetAll() => _vehicles;
 
         public void SaveToFile() => _storage.Save(_vehicles);
+
+        public void UpdateVehicle()
+        {
+            SaveToFile();
+        }
     }
 }

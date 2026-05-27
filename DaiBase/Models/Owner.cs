@@ -5,9 +5,9 @@ namespace DaiBase.Models
     // Клас власника авто 
     public class Owner
     {
-        public string FullName { get; set; }
-        public string PassportSeries { get; set; }
-        public string PassportNumber { get; set; }
-        public string ContactPhone { get; set; }
+        //ПІБ
+        public string? FullName { get; set; }
+        // Номер паспорта
+        public string? PassportNumber { get; set; }
     }
 }
